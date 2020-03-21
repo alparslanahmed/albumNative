@@ -1,8 +1,8 @@
-<p align="center"><img src="https://i.ibb.co/hmTYML5/album.png" width="200"></p>
+<p align="center"><img src="https://i.ibb.co/ctHf428/album.png" width="200"></p>
 
 ## About Album
 
-Album is a Instagram clone app written with React Native. Check the Laravel backend app source code from alparslanahmed/album
+Album is a Instagram clone app written with React Native & Laravel. Check the Laravel backend app source code from alparslanahmed/album
 
 ## Features
 - Image uploading & sharing
