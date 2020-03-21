@@ -1,11 +1,11 @@
 import React from "react";
 import {Text} from "@ui-kitten/components";
 
-function Home() {
+export function HomeScreen() {
     return (
         <Text>Home</Text>
     )
 }
 
 
-export default Home;
+export default HomeScreen;
