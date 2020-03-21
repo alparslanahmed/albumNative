@@ -12,7 +12,7 @@ export const ImageOverlay = (props) => {
 
   const {style, children, ...imageBackgroundProps} = props;
   const {overlayColor, ...imageBackgroundStyle} = StyleSheet.flatten(style);
-  console.log(props)
+
   return (
     <ImageBackground
       {...imageBackgroundProps}

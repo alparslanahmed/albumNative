@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import {Button, Card, Divider, Input, Layout, Text, TopNavigation} from '@ui-kitten/components';
 import {KeyboardAvoidingView, StyleSheet, View, ScrollView, Image} from 'react-native';
 import {connect} from 'react-redux';
-import {loginRequest} from './actions';
+import {loginRequest, readToken} from './actions';
 import {
   EyeIcon,
   EyeOffIcon,
@@ -14,8 +14,15 @@ import {
 import {ImageOverlay} from '../../components/image-overlay.component';
 import loginImage from '../../assets/img/login.jpg';
 import logoImage from '../../assets/img/logo_white.png';
+import AsyncStorage from '@react-native-community/async-storage';
 
 export function LoginScreen({login, dispatch, navigation}) {
+
+  React.useEffect(() => {
+    AsyncStorage.getItem('token').then((data) => {
+      dispatch(readToken(data));
+    });
+  }, []);
 
   const [email, setEmail] = React.useState('');
   const [password, setPassword] = React.useState('');
@@ -92,7 +99,7 @@ export function LoginScreen({login, dispatch, navigation}) {
         <Button
           style={styles.signInButton}
           size='giant'
-          onPress={onSignInButtonPress}>
+          onPress={submitForm}>
           SIGN IN
         </Button>
         <View style={styles.socialAuthContainer}>

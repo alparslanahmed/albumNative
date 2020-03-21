@@ -9,7 +9,6 @@ import LoginScreen from './Screens/Login';
 const Stack = createStackNavigator();
 
 function Navigation({login}) {
-  console.log(login)
   return (
     <NavigationContainer>
       <Stack.Navigator>
