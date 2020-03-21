@@ -5,6 +5,8 @@ import {createStackNavigator} from '@react-navigation/stack';
 import HomeScreen from './Screens/Home';
 import {Text} from '@ui-kitten/components';
 import LoginScreen from './Screens/Login';
+import inlineLogo from './assets/img/album-inline-black.png';
+import {Image} from 'react-native';
 
 const Stack = createStackNavigator();
 
@@ -15,7 +17,10 @@ function Navigation({login}) {
         {
           login.authenticated ? (
             <>
-              <Stack.Screen name="Home" component={HomeScreen}/>
+              <Stack.Screen name="Home" component={HomeScreen} options={{
+                headerTitle: (
+                  <Image style={{width: 85, height: 20}} resizeMode="contain" source={inlineLogo}/>),
+              }}/>
             </>
           ) : (
             <>
