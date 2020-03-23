@@ -1,54 +1,32 @@
 import React, {Component} from 'react';
 import {Button, Card, Divider, Input, Layout, Text, TopNavigation} from '@ui-kitten/components';
-import {KeyboardAvoidingView, StyleSheet, View, ScrollView, Image} from 'react-native';
+import {Alert, StyleSheet, View, ScrollView, Image} from 'react-native';
 import {connect} from 'react-redux';
-import {loginRequest, readToken} from './actions';
-import {
-  EyeIcon,
-  EyeOffIcon,
-  FacebookIcon,
-  GoogleIcon,
-  PersonIcon,
-  TwitterIcon,
-} from '../../components/icons';
+import {loginRequest, readToken, registerRequest} from './actions';
 import {ImageOverlay} from '../../components/image-overlay.component';
 import loginImage from '../../assets/img/login.jpg';
-import logoImage from '../../assets/img/logo_white.png';
-import AsyncStorage from '@react-native-community/async-storage';
 
-export function LoginScreen({login, dispatch, navigation}) {
+export function RegisterScreen({dispatch, navigation}) {
 
-  React.useEffect(() => {
-    AsyncStorage.getItem('token').then((data) => {
-      dispatch(readToken(data));
-    });
-  }, []);
-
+  const [name, setName] = React.useState('');
   const [email, setEmail] = React.useState('');
+  const [username, setUsername] = React.useState('');
   const [password, setPassword] = React.useState('');
-  const [passwordVisible, setPasswordVisible] = React.useState(false);
+  const [password2, setPassword2] = React.useState('');
 
+  const emailInput = React.useRef();
+  const usernameInput = React.useRef();
   const passwordInput = React.useRef();
+  const password2Input = React.useRef();
 
   function submitForm() {
-    dispatch(loginRequest(email, password));
+
+    if (password !== password2) {
+      return Alert.alert('Register Error!', 'Passwords doesnt match.');
+    }
+
+    dispatch(registerRequest({name, email, username, password}));
   }
-
-  const onSignInButtonPress = () => {
-    navigation && navigation.goBack();
-  };
-
-  const onSignUpButtonPress = () => {
-    navigation && navigation.navigate('Register');
-  };
-
-  const onForgotPasswordButtonPress = () => {
-    navigation && navigation.navigate('ForgotPassword');
-  };
-
-  const onPasswordIconPress = () => {
-    setPasswordVisible(!passwordVisible);
-  };
 
   return (
     <ImageOverlay
@@ -56,22 +34,48 @@ export function LoginScreen({login, dispatch, navigation}) {
       source={loginImage}>
       <ScrollView style={{flex: 1}}>
         <View style={styles.headerContainer}>
-          <Image source={logoImage} style={{height: 150, resizeMode: 'contain'}}/>
           <Text
             style={styles.signInLabel}
-            category='s1'
+            category='h1'
             status='control'>
-            Sign in to your account
+            Sign Up
           </Text>
         </View>
         <View style={styles.formContainer}>
           <Input
+            placeholder='Name'
+            value={name}
+            onChangeText={setName}
+            textContentType={'name'}
+            autoCompleteType={'name'}
+            keyboardType={'default'}
+            onSubmitEditing={() => {
+              emailInput.current.focus();
+            }}
+            blurOnSubmit={false}
+          />
+          <Input
+            ref={emailInput}
             placeholder='Email'
             value={email}
             onChangeText={setEmail}
             textContentType={'emailAddress'}
             autoCompleteType={'email'}
             keyboardType={'email-address'}
+            onSubmitEditing={() => {
+              usernameInput.current.focus();
+            }}
+            blurOnSubmit={false}
+            autoCapitalize={'none'}
+          />
+          <Input
+            ref={usernameInput}
+            placeholder='Username'
+            value={username}
+            onChangeText={setUsername}
+            textContentType={'username'}
+            autoCompleteType={'username'}
+            keyboardType={'default'}
             onSubmitEditing={() => {
               passwordInput.current.focus();
             }}
@@ -84,79 +88,46 @@ export function LoginScreen({login, dispatch, navigation}) {
             value={password}
             onChangeText={setPassword}
             secureTextEntry={true}
+            autoCapitalize={'none'}
+            onSubmitEditing={() => {
+              password2Input.current.focus();
+            }}
+          />
+          <Input
+            ref={password2Input}
+            placeholder='Password Again'
+            value={password2}
+            onChangeText={setPassword2}
+            secureTextEntry={true}
             onSubmitEditing={submitForm}
             autoCapitalize={'none'}
           />
-          <View style={styles.forgotPasswordContainer}>
-            <Button
-              style={styles.forgotPasswordButton}
-              appearance='ghost'
-              status='control'
-              onPress={onForgotPasswordButtonPress}>
-              Forgot your password?
-            </Button>
-          </View>
         </View>
         <Button
           style={styles.signInButton}
           size='giant'
           onPress={submitForm}>
-          SIGN IN
+          CREATE ACCOUNT
         </Button>
-        <View style={styles.socialAuthContainer}>
-          <Text
-            style={styles.socialAuthHintText}
-            status='control'>
-            Or Sign In using Social Media
-          </Text>
-          <View style={styles.socialAuthButtonsContainer}>
-            <Button
-              appearance='ghost'
-              status='control'
-              size='giant'
-              icon={GoogleIcon}
-            />
-            <Button
-              appearance='ghost'
-              status='control'
-              size='giant'
-              icon={FacebookIcon}
-            />
-            <Button
-              appearance='ghost'
-              status='control'
-              size='giant'
-              icon={TwitterIcon}
-            />
-          </View>
-        </View>
         <Button
           style={styles.signUpButton}
           appearance='ghost'
           status='control'
-          onPress={onSignUpButtonPress}>
-          Don't have an account? Sign Up
+          onPress={() => {
+            navigation.navigate('Login');
+          }}>
+          Have an account? Sign In
         </Button>
       </ScrollView>
     </ImageOverlay>
   );
 }
 
-LoginScreen.navigationOptions = {
-  header: null,
-};
-
-function mapStateToProps(state) {
-  return {
-    login: state.login,
-  };
-}
-
 function mapDispatchToProps(dispatch) {
   return {dispatch};
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(LoginScreen);
+export default connect(mapDispatchToProps)(RegisterScreen);
 
 const styles = StyleSheet.create({
   container: {

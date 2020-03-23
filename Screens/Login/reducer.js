@@ -17,7 +17,7 @@ const loginReducer = (state = loginState, action) => {
         token: action.payload.access_token,
       };
     case LOGOUT:
-      delete localStorage.token;
+      AsyncStorage.removeItem('token');
       return {
         ...state,
         authenticated: false,

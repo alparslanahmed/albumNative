@@ -22,6 +22,5 @@ export function* request(action) {
 }
 
 export function* loginSaga() {
-  console.log('login saga registered');
   yield takeEvery(LOGIN_REQUEST, request);
 }
