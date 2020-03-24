@@ -10,6 +10,7 @@ import {Image} from 'react-native';
 import {logout} from './Screens/Login/actions';
 import RegisterScreen from './Screens/Register';
 import {navigationRef} from './RootNavigation';
+import ForgotPasswordScreen from './Screens/ForgotPassword';
 
 const Stack = createStackNavigator();
 
@@ -31,6 +32,7 @@ function Navigation({login, dispatch}) {
             <>
               <Stack.Screen name="Login" component={LoginScreen} options={{headerShown: false}}/>
               <Stack.Screen name="Register" component={RegisterScreen} options={{headerShown: false}}/>
+              <Stack.Screen name="ForgotPassword" component={ForgotPasswordScreen} options={{headerShown: false}}/>
             </>
           )
         }
